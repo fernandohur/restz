@@ -13,6 +13,7 @@ public class HttpRequestRestz extends AbstractRestz{
 	@Override
 	public <T> T put(String baseUrl, Type classType, Map<String, Object> params) {
 		HttpRequest put = HttpRequest.put(baseUrl, params, true);
+		
 		String content = put.body();
 		return parser.parse(content, classType);
 	}
