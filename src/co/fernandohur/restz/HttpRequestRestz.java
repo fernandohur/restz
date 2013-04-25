@@ -10,10 +10,13 @@ public class HttpRequestRestz extends AbstractRestz{
 
 	private JsonParser parser;
 	
+	public HttpRequestRestz(JsonParser parser) {
+		this.parser = parser;
+	}
+	
 	@Override
 	public <T> T put(String baseUrl, Type classType, Map<String, Object> params) {
 		HttpRequest put = HttpRequest.put(baseUrl, params, true);
-		
 		String content = put.body();
 		return parser.parse(content, classType);
 	}
