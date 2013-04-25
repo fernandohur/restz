@@ -3,11 +3,10 @@ package co.fernandohur.restz;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-import co.fernandohur.restz.net.HttpRequest;
-
 public abstract class AbstractRestz implements Restz {
 
 	protected Map<String, Object> toMap(Object... params){
+		//TODO
 		return null;
 	}
 	

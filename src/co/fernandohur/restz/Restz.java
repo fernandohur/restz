@@ -52,7 +52,7 @@ public interface Restz {
 	 */
 	public <T> T put(String baseUrl, Type classType, Map<String, Object> params);
 	
-	public int delete(String url);
+	public String delete(String url, Map<String,Object> params);
 	
 	
 }
