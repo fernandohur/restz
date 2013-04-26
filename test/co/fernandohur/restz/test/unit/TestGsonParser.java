@@ -25,10 +25,7 @@ public class TestGsonParser {
 	@Test
 	public void testParsingFromJsonAsSingleObjects(){
 		
-		
-		
 		String json = "{\"name\":\"fernando\", \"age\":20, \"money\":123.57 }";
-		
 		
 		User u = parser.parse(json, User.class);
 		
