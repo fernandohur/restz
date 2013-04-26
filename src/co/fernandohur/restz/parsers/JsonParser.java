@@ -19,4 +19,5 @@ public interface JsonParser {
 	 * @return a java object parsed from a Json string
 	 */
 	public <T> T parse(String json, Class<T> clazz);
+
 }

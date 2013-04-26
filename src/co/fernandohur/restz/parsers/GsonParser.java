@@ -16,7 +16,8 @@ public class GsonParser implements JsonParser{
 	
 	@Override
 	public <T> T parse(String json, Class<T> clazz) {
-		return parse(json, clazz);
+		Type t = clazz;
+		return parse(json, t);
 	}
 	/**
 	 * To obtain Type for a List of T's you can use 
@@ -27,5 +28,8 @@ public class GsonParser implements JsonParser{
 		return gson.fromJson(json, type);
 	}
 
-	
 }
+
+
+
+
