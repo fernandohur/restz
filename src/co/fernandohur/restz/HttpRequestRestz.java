@@ -3,12 +3,19 @@ package co.fernandohur.restz;
 import java.lang.reflect.Type;
 import java.util.Map;
 
+import com.google.gson.Gson;
+
 import co.fernandohur.restz.net.HttpRequest;
+import co.fernandohur.restz.parsers.GsonParser;
 import co.fernandohur.restz.parsers.JsonParser;
 
 public class HttpRequestRestz extends AbstractRestz{
 
 	private JsonParser parser;
+	
+	public HttpRequestRestz(){
+		parser = new GsonParser(new Gson());
+	}
 	
 	public HttpRequestRestz(JsonParser parser) {
 		this.parser = parser;
