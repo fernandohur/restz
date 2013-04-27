@@ -3,11 +3,8 @@ package co.fernandohur.restz.test.unit;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.google.gson.Gson;
-
 import co.fernandohur.restz.HttpRequestRestz;
 import co.fernandohur.restz.Restz;
-import co.fernandohur.restz.parsers.GsonParser;
 
 
 public class TestHttpRestz {
@@ -16,7 +13,7 @@ public class TestHttpRestz {
 	private Restz restz;
 	
 	public TestHttpRestz() {
-		restz = new HttpRequestRestz(new GsonParser(new Gson()));
+		restz = new HttpRequestRestz();
 	}
 	
 	@Test
