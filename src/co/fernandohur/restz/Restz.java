@@ -6,52 +6,68 @@ import java.util.Map;
 public interface Restz {
 	
 	/**
-	 * 
-	 * @param baseUrl the base url i.e. http://baseurl.com
-	 * @param params the parameters i.e. name=bob&lastname=doe
-	 * @return returns a get method object
+	 * Makes a GET to the specified url with the given params
+	 * @param baseUrl the base url of the HTTP request, i.e. http://graph.facebook.com
+	 * @param classType the class type of the return object type
+	 * @param params a list of params
+	 * @return an object of the given classType
 	 */
 	public <T> T get(String baseUrl, Type classType, Object... params);
 
 	
 	/**
-	 * 
-	 * @param baseUrl
-	 * @param params the get params encoded as a hashmap
-	 * @return returns a get method object
+	 * Makes a GET to the specified baseUrl with the specified params
+	 * @param baseUrl the base url of the HTTP request, i.e. http://graph.facebook.com
+	 * @param classType the class type of the return object type
+	 * @param params a list of params
+	 * @return an object of the given classType
 	 */
 	public <T> T get(String baseUrl, Type classType, Map<String,Object> params);
 	
 
 	/**
-	 * Posts to the specified url
-	 * @param baseUrl the url to post
-	 * @param params the params must be submitted in pairs. If for example you
-	 * want a=b&b=c then params={a,b,b,c}
-	 * @return a post method object
+	 * Makes a POST to the specified base url with the given params
+	 * @param baseUrl the base url of the HTTP request, i.e. http://graph.facebook.com
+	 * @param classType the class type of the return object type
+	 * @param params a list of params
+	 * @return an object of the given classType
 	 */
 	public <T> T post(String baseUrl, Type classType, Object... params);
 	
+	/**
+	 * Makes a POST to the specified base url with the given params
+	 * @param baseUrl the base url of the HTTP request, i.e. http://graph.facebook.com
+	 * @param classType the class type of the return object type
+	 * @param params a list of params
+	 * @return an object of the given classType
+	 */
 	public <T> T post(String baseUrl, Type classType, Map<String, Object> params);
 	
 	/**
-	 * Put to the specified url
-	 * @param baseUrl the url to put to
-	 * @param params the params must be submitted in pairs. If for example you
-	 * want a=b&b=c then params={a,b,b,c}
-	 * @return a put method object
+	 * Makes a PUT to the specified base url with the given params
+	 * @param baseUrl the base url of the HTTP request, i.e. http://graph.facebook.com
+	 * @param classType the class type of the return object type
+	 * @param params a list of params
+	 * @return an object of the given classType
 	 */
 	public <T> T put(String baseUrl, Type classType, Object... params);
 	
 	/**
-	 * Put to the specified url
-	 * @param baseUrl the url to put to
-	 * @param params the params must be submitted in pairs. If for example you
-	 * want a=b&b=c then params={a,b,b,c}
-	 * @return a put method object
+	 * Makes a PUT to the specified base url with the given params
+	 * @param baseUrl the base url of the HTTP request, i.e. http://graph.facebook.com
+	 * @param classType the class type of the return object type
+	 * @param params a list of params
+	 * @return an object of the given classType
 	 */
 	public <T> T put(String baseUrl, Type classType, Map<String, Object> params);
 	
+	/**
+	 * Makes a DELETE to the specified base url with the given params
+	 * @param baseUrl the base url of the HTTP request, i.e. http://graph.facebook.com
+	 * @param classType the class type of the return object type
+	 * @param params a list of params
+	 * @return an object of the given classType
+	 */
 	public String delete(String url, Map<String,Object> params);
 	
 	
