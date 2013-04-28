@@ -1,12 +1,13 @@
 package co.fernandohur.restz;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
-public interface Railz {
+public interface Railz<T> {
 
-	public <T> T find(Class<T> clazz, Object id);
-	public <T> T create(T object);
-	public <T> T update(Object id, T newObject);
+	public T find(Class<T> clazz, Object id);
+	public T create(T object);
+	public T update(Object id, T newObject);
 	public void destroy(Object id);
-	public <T> List<T> getAll(Class<T> clazz);
+	public List<T> getAll(Type clazz);
 }

@@ -11,13 +11,4 @@ public interface JsonParser {
 	 * @return the object parsed from a json string
 	 */
 	public <T> T parse(String json, Type type);
-	
-	/**
-	 * 
-	 * @param json the json string to be parsed
-	 * @param clazz the object's Class
-	 * @return a java object parsed from a Json string
-	 */
-	public <T> T parse(String json, Class<T> clazz);
-
 }

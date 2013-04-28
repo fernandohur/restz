@@ -14,11 +14,6 @@ public class GsonParser implements JsonParser{
 		this.gson = gson;
 	}
 	
-	@Override
-	public <T> T parse(String json, Class<T> clazz) {
-		Type t = clazz;
-		return parse(json, t);
-	}
 	/**
 	 * To obtain Type for a List of T's you can use 
 	 * {@code new TypeToken<List<T>>(){}.getType() }
