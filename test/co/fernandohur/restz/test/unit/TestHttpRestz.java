@@ -17,7 +17,7 @@ public class TestHttpRestz {
 	}
 	
 	@Test
-	public void testGetToFacebookShouldReturnUser(){
+	public void testGetToFacebookShouldReturnUser() throws Exception{
 		
 		FacebookUser user = restz.get("https://graph.facebook.com/4", FacebookUser.class);
 		Assert.assertEquals("4", user.id);

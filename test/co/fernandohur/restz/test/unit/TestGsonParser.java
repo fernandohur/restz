@@ -23,7 +23,7 @@ public class TestGsonParser {
 	}
 	
 	@Test
-	public void testParsingFromJsonAsSingleObjects(){
+	public void testParsingFromJsonAsSingleObjects() throws Exception{
 		
 		String json = "{\"name\":\"fernando\", \"age\":20, \"money\":123.57 }";
 		
@@ -44,7 +44,7 @@ public class TestGsonParser {
 	}
 	
 	@Test
-	public void testParsingJsonArraysToJavaLists(){
+	public void testParsingJsonArraysToJavaLists() throws Exception{
 				
 		String json = "[{\"name\":\"fernando\", \"age\":20, \"money\":123.57 }]";
 		List<User> users = parser.parse(json, new TypeToken<List<User>>(){}.getType());

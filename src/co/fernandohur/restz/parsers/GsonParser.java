@@ -17,11 +17,22 @@ public class GsonParser implements JsonParser{
 	/**
 	 * To obtain Type for a List of T's you can use 
 	 * {@code new TypeToken<List<T>>(){}.getType() }
+	 * @throws Exception 
 	 */
 	@Override
-	public <T> T parse(String json, Type type) {
+	public <T> T parse(String json, Type type) throws Exception {
+		String errorMessage = getError(json,type);
+		if (errorMessage != null){
+			throw new Exception(errorMessage);
+		}
 		return gson.fromJson(json, type);
 	}
+
+	public String getError(String json, Type type) {
+		return null;
+	}
+	
+	
 
 }
 

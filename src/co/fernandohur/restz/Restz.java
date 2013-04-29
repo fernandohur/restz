@@ -3,6 +3,8 @@ package co.fernandohur.restz;
 import java.lang.reflect.Type;
 import java.util.Map;
 
+import co.fernandohur.restz.parsers.JsonParser;
+
 public interface Restz {
 	
 	/**
@@ -12,7 +14,7 @@ public interface Restz {
 	 * @param params a list of params
 	 * @return an object of the given classType
 	 */
-	public <T> T get(String baseUrl, Type classType, Object... params);
+	public <T> T get(String baseUrl, Type classType, Object... params) throws Exception;
 
 	
 	/**
@@ -22,7 +24,9 @@ public interface Restz {
 	 * @param params a list of params
 	 * @return an object of the given classType
 	 */
-	public <T> T get(String baseUrl, Type classType, Map<String,Object> params);
+	public <T> T get(String baseUrl, Type classType, Map<String,Object> params) throws Exception;
+	
+	public String get(String baseUrl, Object... params) throws Exception;
 	
 
 	/**
@@ -32,7 +36,7 @@ public interface Restz {
 	 * @param params a list of params
 	 * @return an object of the given classType
 	 */
-	public <T> T post(String baseUrl, Type classType, Object... params);
+	public <T> T post(String baseUrl, Type classType, Object... params) throws Exception;
 	
 	/**
 	 * Makes a POST to the specified base url with the given params
@@ -41,7 +45,9 @@ public interface Restz {
 	 * @param params a list of params
 	 * @return an object of the given classType
 	 */
-	public <T> T post(String baseUrl, Type classType, Map<String, Object> params);
+	public <T> T post(String baseUrl, Type classType, Map<String, Object> params) throws Exception;
+	
+	public String post(String baseUrl, Object... params) throws Exception;
 	
 	/**
 	 * Makes a PUT to the specified base url with the given params
@@ -50,7 +56,7 @@ public interface Restz {
 	 * @param params a list of params
 	 * @return an object of the given classType
 	 */
-	public <T> T put(String baseUrl, Type classType, Object... params);
+	public <T> T put(String baseUrl, Type classType, Object... params) throws Exception;
 	
 	/**
 	 * Makes a PUT to the specified base url with the given params
@@ -59,7 +65,9 @@ public interface Restz {
 	 * @param params a list of params
 	 * @return an object of the given classType
 	 */
-	public <T> T put(String baseUrl, Type classType, Map<String, Object> params);
+	public <T> T put(String baseUrl, Type classType, Map<String, Object> params) throws Exception;
+	
+	public String put(String baseUrl, Object... params) throws Exception;
 	
 	/**
 	 * Makes a DELETE to the specified base url with the given params
@@ -68,7 +76,8 @@ public interface Restz {
 	 * @param params a list of params
 	 * @return an object of the given classType
 	 */
-	public String delete(String url, Map<String,Object> params);
+	public String delete(String url, Map<String,Object> params) throws Exception;
 	
+	public JsonParser getParser();
 	
 }
