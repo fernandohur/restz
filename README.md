@@ -3,9 +3,14 @@ A wrapper for http-request + Gson to consume json RESTful web services. Restz us
 and http-request to make the actual request. This tutorial shows how to do some basic stuff.
 Restz is made specifically to consume web services from Android, although it is general purpose.
 
-## How to use Restz
-Restz is built for lazy dummies like me in mind, so using it is easy. Follow these simple steps to learn how to make a GET, POST, PUT and DELETE
+## What is *Restz*?
+Rest is a darn easy way to consume RESTful webservices with Json format. It basically does 2 things for you:
+1. It makes the actual request i.e. the HTTP GET, PUT, POST, DELTE or whatever. 
+2. It parses the result from a raw json string to a regular Java Object, so you don't have to.
 
+## How to use Restz
+Restz is built for lazy dummies like me in mind, so it's easy to use. Follow these simple steps to learn how to make a GET and POST
+(PUT and DELETE coming soon as well as Basic Auth)
 ### How to instantiate Restz
 
 The default way to instantiate Restz is as follows
@@ -19,28 +24,27 @@ Lets say we want to get my facebook data from https://graph.facebook.com/fernand
 
 1. We define a class to hold the json object 
 
-```java
-class FacebookUser{
-	String id;
-	String name;
-	String first_name;
-	String last_name;
-	String username;
-	String gender;
-	String locale;
-}
-```
-NOTE: the Objects attribute names must match the json's attribute names.
-
+	```java
+	class FacebookUser{
+		String id;
+		String name;
+		String first_name;
+		String last_name;
+		String username;
+		String gender;
+		String locale;
+	}
+	```
+	NOTE: the Objects attribute names must match the json's attribute names.
 2. We use Restz to make an HTTP GET request to https://graph.facebook.com/fernandohur
 
-```java
+	```java
+	
+	Restz restz = new HttpRequestRestz();
+	FacebookUser user = restz.get("https://graph.facebook.com/fernandohur", FacebookUser.class);
+	System.out.println("My name is "+ user.first_name)
 
-Restz restz = new HttpRequestRestz();
-FacebookUser user = restz.get("https://graph.facebook.com/fernandohur", FacebookUser.class);
-System.out.println("My name is "+ user.first_name)
-
-```
+	```
 ### How to make a GET request that returns a Json Array
 
 So for this case let's asume you have a web servies that given the id of a user returns his friends as a list of FacebookUser, 
