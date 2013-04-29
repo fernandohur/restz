@@ -8,6 +8,13 @@ Rest is a darn easy way to consume RESTful webservices with Json format. It basi
 1. It makes the actual request i.e. the HTTP GET, PUT, POST, DELTE or whatever. 
 2. It parses the result from a raw json string to a regular Java Object, so you don't have to.
 
+### Is there a .jar?
+Sure there is, you can download it using
+```bash
+$ wget https://github.com/fernandohur/restz/raw/master/jar/restz.jar
+```
+Or simply go to https://github.com/fernandohur/restz/blob/master/jar/restz.jar and click on *raw*
+
 ## How to use Restz
 Restz is built for lazy dummies like me in mind, so it's easy to use. Follow these simple steps to learn how to make a GET and POST
 (PUT and DELETE coming soon as well as Basic Auth)
