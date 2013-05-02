@@ -125,6 +125,68 @@ public class TestHttpRestz {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Test
+	public void testPUTasString() throws Exception{
+
+		enqueueUser();
+
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("a", "b");
+		String responseUser = restz.put(getURL(), params);
+		Assert.assertEquals(getJsonMockUser(), responseUser);
+
+		MockUser user = restz.getParser().parse(responseUser, MockUser.class);
+		test(user, "PUT", "", "a=b".getBytes());
+
+	}
+
+	@Test
+	public void testPUTasMockUser1() throws Exception{
+
+		enqueueUser();
+
+		MockUser user = restz.put(getURL(),MockUser.class, "id",2,"x","hola");
+		test(user, "PUT", "", "id=2&x=hola".getBytes());
+
+	}
+
+	@Test
+	public void testPUTasMockUser2() throws Exception{
+
+		enqueueUser();
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", 2);
+		map.put("x", "hola");
+
+		MockUser user = restz.put(getURL(),MockUser.class, map);
+		test(user, "PUT", "","x=hola&id=2".getBytes());
+
+	}
+	
+	@Test
+	public void testPUTasMockUserList() throws Exception{
+		enqueueList();
+		enqueueList();
+		enqueueList();
+		List<MockUser> users = restz.put(getURL(),new TypeToken<List<MockUser>>(){}.getType());
+		test(users, "PUT", "", "".getBytes());
+
+		users = restz.put(getURL(),new TypeToken<List<MockUser>>(){}.getType(),"a","b","c","d");
+		test(users, "PUT", "", "c=d&a=b".getBytes());
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("a", 5);
+		map.put("asd", "b");
+
+		users = restz.put(getURL(),new TypeToken<List<MockUser>>(){}.getType(),map);
+		test(users, "PUT", "", "asd=b&a=5".getBytes());
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// PUT related tests ////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test
 	public void testPOSTasString() throws Exception{
 
 		enqueueUser();
@@ -181,12 +243,6 @@ public class TestHttpRestz {
 		users = restz.post(getURL(),new TypeToken<List<MockUser>>(){}.getType(),map);
 		test(users, "POST", "", "asd=b&a=5".getBytes());
 	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// PUT related tests ////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// DELETElated tests ////////////////////////////////////////////////////////////////////////////////

@@ -62,7 +62,7 @@ public class HttpRequestRestz extends AbstractRestz{
 
 	@Override
 	public String put(String baseUrl, Map<String, Object> params) {
-		HttpRequest put = HttpRequest.put(baseUrl, toMap(params), true);
+		HttpRequest put = HttpRequest.put(baseUrl, params, true);
 		return put.body();
 	}
 	
