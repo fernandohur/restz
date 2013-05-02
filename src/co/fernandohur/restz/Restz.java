@@ -26,7 +26,7 @@ public interface Restz {
 	 */
 	public <T> T get(String baseUrl, Type classType, Map<String,Object> params) throws Exception;
 	
-	public String get(String baseUrl, Object... params) throws Exception;
+	public String get(String baseUrl, Map<String, Object> params) throws Exception;
 	
 
 	/**
@@ -47,7 +47,7 @@ public interface Restz {
 	 */
 	public <T> T post(String baseUrl, Type classType, Map<String, Object> params) throws Exception;
 	
-	public String post(String baseUrl, Object... params) throws Exception;
+	public String post(String baseUrl, Map<String, Object> params) throws Exception;
 	
 	/**
 	 * Makes a PUT to the specified base url with the given params
@@ -67,7 +67,7 @@ public interface Restz {
 	 */
 	public <T> T put(String baseUrl, Type classType, Map<String, Object> params) throws Exception;
 	
-	public String put(String baseUrl, Object... params) throws Exception;
+	public String put(String baseUrl, Map<String, Object> params) throws Exception;
 	
 	/**
 	 * Makes a DELETE to the specified base url with the given params
@@ -79,5 +79,6 @@ public interface Restz {
 	public String delete(String url, Map<String,Object> params) throws Exception;
 	
 	public JsonParser getParser();
+	public void setParser(JsonParser parser);
 	
 }
