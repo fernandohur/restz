@@ -7,6 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import main.java.fi.iki.elonen.MockHttpServer;
+import main.java.fi.iki.elonen.MockHttpServer.Request;
+import main.java.fi.iki.elonen.NanoHTTPD;
+import main.java.fi.iki.elonen.NanoHTTPD.Response.Status;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,84 +21,86 @@ import co.fernandohur.restz.HttpRequestRestz;
 import co.fernandohur.restz.Restz;
 
 import com.google.gson.reflect.TypeToken;
-import com.google.mockwebserver.MockResponse;
-import com.google.mockwebserver.MockWebServer;
-import com.google.mockwebserver.RecordedRequest;
 
 
 public class TestHttpRestz {
 
 
 	private Restz restz;
-	private MockWebServer mockServer;
-	
-	
-	
+	private MockHttpServer mockServer;
+
+
+
 	public TestHttpRestz() {
 		restz = new HttpRequestRestz();
-		mockServer = new MockWebServer();
+		mockServer = new MockHttpServer(12345);
+		
 	}
-	
+
 	@Before
 	public void setup() throws IOException{
-		mockServer.play(12345);
+		mockServer.start();
 	}
-	
+
 	@After
 	public void after() throws IOException {
-		mockServer.shutdown();
+		mockServer.stop();
 	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+	/// GET related tests /////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@Test
 	public void testGetToFacebookShouldReturnUser() throws Exception{
-		
+
 		FacebookUser user = restz.get("https://graph.facebook.com/4", FacebookUser.class);
 		Assert.assertEquals("4", user.id);
 		Assert.assertEquals("Mark Zuckerberg", user.name);
 		Assert.assertEquals("zuck", user.username);
 		Assert.assertEquals("male", user.gender);
 	}
-	
+
 	@Test
 	public void testGETasString() throws Exception{
-		
-		enqueueUser();
-		
-		Map<String,Object> params = new HashMap<String,Object>();
-		Assert.assertTrue(params.size()%2==0);
-		String responseUser = restz.get(mockServer.getUrl("/").toString(), params);
-		Assert.assertEquals(getJsonMockUser(), responseUser);
-		
-		MockUser user = restz.getParser().parse(responseUser, MockUser.class);
-		test(user, "GET", "", "".getBytes());
-	
-	}
-	
-	@Test
-	public void testGETasMockUser1() throws Exception{
-		
+
 		enqueueUser();
 
-		MockUser user = restz.get(mockServer.getUrl("/").toString(),MockUser.class, "id",2,"x","hola");
-		test(user, "GET", "id=2&x=hola", "".getBytes());
-		
+		Map<String,Object> params = new HashMap<String,Object>();
+		Assert.assertTrue(params.size()%2==0);
+		String responseUser = restz.get(getURL(), params);
+		Assert.assertEquals(getJsonMockUser(), responseUser);
+
+		MockUser user = restz.getParser().parse(responseUser, MockUser.class);
+		test(user, "GET", "", "".getBytes());
+
 	}
-	
+
+	@Test
+	public void testGETasMockUser1() throws Exception{
+
+		enqueueUser();
+
+		MockUser user = restz.get(getURL(),MockUser.class, "id",2,"x","hola");
+		test(user, "GET", "id=2&x=hola", "".getBytes());
+
+	}
+
 	@Test
 	public void testGETasMockUser2() throws Exception{
-		
+
 		enqueueUser();
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", 2);
 		map.put("x", "hola");
-		
-		MockUser user = restz.get(mockServer.getUrl("/").toString(),MockUser.class, map);
+
+		MockUser user = restz.get(getURL(),MockUser.class, map);
 		test(user, "GET", "","".getBytes());
-		
+
 	}
-	
-	
+
+
 	@Test
 	public void testGetasMockUserList() throws Exception{
 		enqueueList();
@@ -101,25 +108,51 @@ public class TestHttpRestz {
 		enqueueList();
 		List<MockUser> users = restz.get(getURL(),new TypeToken<List<MockUser>>(){}.getType());
 		test(users, "GET", "", "".getBytes());
-		
+
 		users = restz.get(getURL(),new TypeToken<List<MockUser>>(){}.getType(),"a","b","c","d");
 		test(users, "GET", "c=d&a=b", "".getBytes());
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("a", 5);
 		map.put("asd", "b");
-		
+
 		users = restz.get(getURL(),new TypeToken<List<MockUser>>(){}.getType(),map);
 		test(users, "GET", "asd=b&a=5", "".getBytes());
 	}
-	
-	
-	
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	///POST related tests ////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Test
 	public void testPOSTasString() throws Exception{
-		String json = getJsonMockUser();
-		mockServer.enqueue(new MockResponse().setResponseCode(200).setBody(json));
+
+		enqueueUser();
+
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("a", "b");
+		String responseUser = restz.post(getURL(), params);
+		Assert.assertEquals(getJsonMockUser(), responseUser);
+
+		MockUser user = restz.getParser().parse(responseUser, MockUser.class);
+		test(user, "POST", "", "a=b".getBytes());
+
 	}
+
 	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// PUT related tests ////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// DELETElated tests ////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// Helper methods ///////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Tests a bunch of things:
 	 * 1. Tests that the param user's attributes match with getJsonMockUser()'s attrs
@@ -136,13 +169,14 @@ public class TestHttpRestz {
 		Assert.assertEquals(user.money, 21.5,0.1);
 		Assert.assertEquals(user.name, "carlos");
 		Assert.assertEquals(user.age, 21);
-		
-		RecordedRequest request = mockServer.takeRequest();
-		Assert.assertEquals(method,request.getMethod());
-		Assert.assertArrayEquals(request.getBody(), body);
-		Assert.assertTrue(request.getRequestLine().contains(params));
+
+		Request request = mockServer.getRequest();
+		Assert.assertEquals(method,request.getMethod().toString());
+		if (params.length()>0){
+			Assert.assertTrue(request.getParams().get(NanoHTTPD.QUERY_STRING_PARAMETER).contains(params));
+		}
 	}
-	
+
 	/**
 	 * Similar to method test(MockUser, String,String,byte[]) but instead of single user test's for many users
 	 * @param users
@@ -168,42 +202,65 @@ public class TestHttpRestz {
 				Assert.fail("User with age "+u.age + " should not exist");
 			}
 		}
-		
-		RecordedRequest request = mockServer.takeRequest();
-		Assert.assertEquals(method,request.getMethod());
-		Assert.assertArrayEquals(request.getBody(), body);
-		Assert.assertTrue(request.getRequestLine().contains(params));
+
+		Request request = mockServer.getRequest();
+		Assert.assertEquals(method,request.getMethod().toString());
+		if (params.length()>0){
+			Assert.assertTrue(request.getParams().get(NanoHTTPD.QUERY_STRING_PARAMETER).contains(params));
+		}
 	}
-	
+
+	/**
+	 * Returns a Json array with 2 mock users
+	 * @return
+	 */
 	String getJsonMockUserList(){
 		String json = "[{\"name\":\"carlos\",\"age\":21,\"money\":21.5},{\"name\":\"roberto\",\"age\":15,\"money\":99.9}]";
 		return json;
 	}
-	
+	/**
+	 * Returns a json object with a mock user
+	 * @return
+	 */
 	String getJsonMockUser(){
 		String json = "{\"name\":\"carlos\",\"age\":21,\"money\":21.5}";
 		return json;
 	}
-	
-	String getURL() throws MalformedURLException, UnknownHostException{
-		return mockServer.getUrl("/").toString();
+
+	/**
+	 * Use this method to get the url that should be used for getting, posting, etc.
+	 * @return
+	 * @throws MalformedURLException
+	 * @throws UnknownHostException
+	 */
+	String getURL(){
+		return mockServer.getUrl();
 	}
-	
+
+	/**
+	 * Enqueue a mock response with a 200 response code and the json obtained from getJsonMockUser()
+	 */
 	public void enqueueUser(){
-		mockServer.enqueue(new MockResponse().setResponseCode(200).setBody(getJsonMockUser()));
+		mockServer.enqueueResponse(Status.OK, "application/json", getJsonMockUser());
 	}
-	
+
+	/**
+	 * Enqueue a mock response with a 200 response code and the json obtained from getJsonMockUserList()
+	 */
 	public void enqueueList(){
-		mockServer.enqueue(new MockResponse().setResponseCode(200).setBody(getJsonMockUserList()));
+		mockServer.enqueueResponse(Status.OK, "application/json", getJsonMockUserList());
 	}
-	
-	
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// Test extra classes ///////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	class MockUser{
 		String name;
 		int age;
 		double money;
 	}
-	
+
 	class FacebookUser{
 		String id;
 		String name;
@@ -213,5 +270,5 @@ public class TestHttpRestz {
 		String gender;
 		String locale;
 	}
-	
+
 }
