@@ -102,7 +102,7 @@ public class TestHttpRestz {
 
 
 	@Test
-	public void testGetasMockUserList() throws Exception{
+	public void testGETtasMockUserList() throws Exception{
 		enqueueList();
 		enqueueList();
 		enqueueList();
@@ -161,6 +161,25 @@ public class TestHttpRestz {
 		MockUser user = restz.post(getURL(),MockUser.class, map);
 		test(user, "POST", "","x=hola&id=2".getBytes());
 
+	}
+	
+	@Test
+	public void testPOSTasMockUserList() throws Exception{
+		enqueueList();
+		enqueueList();
+		enqueueList();
+		List<MockUser> users = restz.post(getURL(),new TypeToken<List<MockUser>>(){}.getType());
+		test(users, "POST", "", "".getBytes());
+
+		users = restz.post(getURL(),new TypeToken<List<MockUser>>(){}.getType(),"a","b","c","d");
+		test(users, "POST", "", "c=d&a=b".getBytes());
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("a", 5);
+		map.put("asd", "b");
+
+		users = restz.post(getURL(),new TypeToken<List<MockUser>>(){}.getType(),map);
+		test(users, "POST", "", "asd=b&a=5".getBytes());
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
