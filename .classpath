@@ -5,10 +5,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/gson-2.2.3.jar" sourcepath="lib/gson-2.2.3-sources.jar"/>
-	<classpathentry kind="lib" path="lib/wink-1.3.0.jar"/>
-	<classpathentry kind="lib" path="lib/wink-client-1.3.0.jar"/>
-	<classpathentry kind="lib" path="lib/wink-common-1.3.0.jar"/>
-	<classpathentry kind="lib" path="lib/wink-server-1.3.0.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/nanohttpd"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
