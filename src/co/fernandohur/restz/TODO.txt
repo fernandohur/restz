@@ -1,0 +1,18 @@
+##########
+## TODO ##
+##########  
+
+
+- Restz 
+  - Add support for HTTP PATCH (and maby later for PURGE)
+    - includes T patch(String, Type, Object...), T patch(String, Type, Map<String, Object>) and String patch(String, Map) 
+  - Add public String delete(String url, Object... params) throws Exception; to Restz
+  - Add finish delete tests
+  - Add documentation to Restz
+    methods that return String return the raw json
+
+- Tests
+
+  - Organize tests by http method instead of all methods in one single test file
+
+- Other
