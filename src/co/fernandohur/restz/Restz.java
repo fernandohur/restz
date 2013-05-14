@@ -7,6 +7,8 @@ import co.fernandohur.restz.parsers.JsonParser;
 
 public interface Restz {
 	
+	
+	
 	/**
 	 * Makes a GET to the specified url with the given params
 	 * @param baseUrl the base url of the HTTP request, i.e. http://graph.facebook.com

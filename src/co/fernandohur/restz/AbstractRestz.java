@@ -12,6 +12,7 @@ public abstract class AbstractRestz implements Restz {
 	
 	protected JsonParser parser;
 	
+	
 	public Map<String, Object> toMap(Object... params){
 		
 		if (params.length % 2 != 0){
@@ -36,24 +37,9 @@ public abstract class AbstractRestz implements Restz {
 		return parser.parse(json, classType);
 	}
 	
-	@Override
-	public <T> T get(String baseUrl, Type classType, Map<String, Object> params)
-			throws Exception {
-		String json = get(baseUrl, params);
-		return parser.parse(json, classType);
-	}
 
-
-	
 	public <T> T post(String baseUrl, Type classType, Object... params) throws Exception {
 		String json = post(baseUrl, toMap(params));
-		return parser.parse(json, classType);
-	}
-	
-	@Override
-	public <T> T post(String baseUrl, Type classType, Map<String, Object> params)
-			throws Exception {
-		String json = post(baseUrl, params);
 		return parser.parse(json, classType);
 	}
 	
@@ -63,11 +49,23 @@ public abstract class AbstractRestz implements Restz {
 	}
 	
 	@Override
-	public <T> T put(String baseUrl, Type classType, Map<String, Object> params)
-			throws Exception {
-		String json = put(baseUrl, params);
-		return parser.parse(json, classType);
+	public <T> T put(String baseUrl, Type classType, Map<String, Object> params) throws Exception {
+		String content = put(baseUrl, params);
+		return parser.parse(content, classType);
 	}
+	
+	@Override
+	public <T> T post(String baseUrl, Type classType, Map<String, Object> params) throws Exception {
+		String content = post(baseUrl, params);
+		return parser.parse(content, classType);
+	}
+	
+	@Override
+	public <T> T get(String baseUrl, Type classType, Map<String, Object> params) throws Exception {
+		String content = get(baseUrl, params);
+		return parser.parse(content, classType);
+	}
+	
 	
 	@Override
 	public JsonParser getParser() {
@@ -78,5 +76,9 @@ public abstract class AbstractRestz implements Restz {
 	public void setParser(JsonParser parser) {
 		this.parser = parser; 
 	}
+	
+	
+
+	
 
 }

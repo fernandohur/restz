@@ -7,13 +7,13 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import co.fernandohur.restz.AbstractRestz;
-import co.fernandohur.restz.HttpRequestRestz;
+import co.fernandohur.restz.DefaultRestz;
 
 public class TestAbstractRestz {
 
 	@Test
 	public void testToMap(){
-		AbstractRestz res = new HttpRequestRestz();
+		AbstractRestz res = new DefaultRestz();
 		Map<String, Object> map = res.toMap("a","1","b",2);
 		Assert.assertEquals(true, map.containsKey("a"));
 		Assert.assertEquals(true, map.containsKey("b"));
