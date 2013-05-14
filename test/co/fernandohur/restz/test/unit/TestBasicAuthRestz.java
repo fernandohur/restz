@@ -1,6 +1,7 @@
 package co.fernandohur.restz.test.unit;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import junit.framework.Assert;
 import main.java.fi.iki.elonen.MockHttpServer.Request;
@@ -27,13 +28,14 @@ public class TestBasicAuthRestz extends HasServerTest{
 		
 		enqueueUser();
 		
-		restz.get(getURL(), MockUser.class);
+		restz.get(getURL(), MockUser.class, "a", "b");
 		
 		Request req = mockServer.getRequest();
 		String auth = req.getHeader().get("authorization");
 		Assert.assertTrue(auth.startsWith("Basic "));
 		String[] credentials = decodeAndGetCredentials(auth);
 		
+		assertParams(req);
 		assertCredentials(credentials);
 	}
 	
@@ -42,13 +44,14 @@ public class TestBasicAuthRestz extends HasServerTest{
 		
 		enqueueUser();
 		
-		restz.post(getURL(), MockUser.class);
+		restz.post(getURL(), MockUser.class, "a", "b");
 		
 		Request req = mockServer.getRequest();
 		String auth = req.getHeader().get("authorization");
 		Assert.assertTrue(auth.startsWith("Basic "));
 		String[] credentials = decodeAndGetCredentials(auth);
 		
+		assertParams(req);
 		assertCredentials(credentials);
 	}
 	
@@ -57,13 +60,14 @@ public class TestBasicAuthRestz extends HasServerTest{
 		
 		enqueueUser();
 		
-		restz.put(getURL(), MockUser.class);
+		restz.put(getURL(), MockUser.class, "a", "b");
 		
 		Request req = mockServer.getRequest();
 		String auth = req.getHeader().get("authorization");
 		Assert.assertTrue(auth.startsWith("Basic "));
 		String[] credentials = decodeAndGetCredentials(auth);
 		
+		assertParams(req);
 		assertCredentials(credentials);
 	}
 	
@@ -95,6 +99,11 @@ public class TestBasicAuthRestz extends HasServerTest{
 		Assert.assertEquals(credentials.length, 2);
 		Assert.assertEquals(credentials[0], username);
 		Assert.assertEquals(credentials[1], password);
+	}
+	
+	private void assertParams(Request req){
+		Map<String,String> params = req.getParams();
+		Assert.assertEquals(params.get("a"), "b");
 	}
 
 	
