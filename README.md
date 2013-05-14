@@ -97,6 +97,10 @@ case the result should have been something like
 }
 ```
 
+## Basic auth
+
+TODO: basic auth is implemented using the class BasicAuthRestz
+
 
 
 
